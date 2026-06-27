@@ -155,14 +155,14 @@ public class LOGIN_KASIR extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String username = tUserAdmin.getText();
+        String username = tUserKasir.getText();
         
-        String password = tPasswordAdmin.getText();
+        String password = tPasswordKasir.getText();
         
         if (username.length() != 0 && password.length() != 0){
             try{
                 
-                String sql = "SELECT * FROM admin WHERE username_admin=? AND password_admin=md5(?)";
+                String sql = "SELECT * FROM kasir WHERE username_kasir=? AND password_kasir=md5(?)";
                 
                 Connection con = koneksi.konek();
                 
