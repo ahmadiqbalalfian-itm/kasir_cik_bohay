@@ -27,6 +27,26 @@ public class LOGIN_ADMIN extends javax.swing.JFrame {
      */
     public LOGIN_ADMIN() {
         initComponents();
+        reset();
+        myDesign();
+    }
+    
+        void myDesign(){
+        btnLogin.putClientProperty(
+                        "FlatLaf.style",
+                        "borderWidth:0;arc:15");
+        tUserAdmin.putClientProperty(
+                        "FlatLaf.style",
+                        "borderWidth:0;arc:20");
+        tPasswordAdmin.putClientProperty(
+                        "FlatLaf.style",
+                        "borderWidth:0;arc:20");
+        
+    }
+
+    void reset(){
+        tPasswordAdmin.setText(null);
+        tUserAdmin.setText(null);
     }
 
     /**
