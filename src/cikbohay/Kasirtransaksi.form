@@ -339,6 +339,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Tambah"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnHapus">
               <Properties>
@@ -576,6 +579,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Cash"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCashActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnStruk">
               <Properties>

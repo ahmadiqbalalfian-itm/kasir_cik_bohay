@@ -21,6 +21,7 @@ public class Kasirtransaksi extends javax.swing.JPanel {
     }
     
     void reset(){
+        tKode.setText(null);
         tNamaMenu.setText(null);
         tHarga.setText(null);
         tJumlah.setText(null);
@@ -155,6 +156,7 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));
         btnTambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-plus-20.png"))); // NOI18N
         btnTambah.setText("Tambah");
+        btnTambah.addActionListener(this::btnTambahActionPerformed);
 
         btnHapus.setBackground(new java.awt.Color(255, 51, 51));
         btnHapus.setForeground(new java.awt.Color(255, 255, 255));
@@ -292,6 +294,7 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         btnCash.setBackground(new java.awt.Color(51, 204, 0));
         btnCash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-cash-20.png"))); // NOI18N
         btnCash.setText("Cash");
+        btnCash.addActionListener(this::btnCashActionPerformed);
 
         btnStruk.setBackground(new java.awt.Color(255, 204, 0));
         btnStruk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-note-20.png"))); // NOI18N
@@ -414,6 +417,15 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         // TODO add your handling code here:
         new Struk_cikbohay().setVisible(true);
     }//GEN-LAST:event_btnStrukActionPerformed
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCashActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
