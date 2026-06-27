@@ -4,6 +4,12 @@
  */
 package cikbohay;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rizal
@@ -149,6 +155,42 @@ public class LOGIN_KASIR extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        String username = tUserAdmin.getText();
+        
+        String password = tPasswordAdmin.getText();
+        
+        if (username.length() != 0 && password.length() != 0){
+            try{
+                
+                String sql = "SELECT * FROM admin WHERE username_admin=? AND password_admin=md5(?)";
+                
+                Connection con = koneksi.konek();
+                
+                PreparedStatement ps = con.prepareStatement(sql);
+                
+                ps.setString(1, username);
+                
+                ps.setString(2, password);
+                
+                ResultSet rs = ps.executeQuery();
+                
+                if(rs.next()){
+                    
+                    dispose();
+                    new cikbohayy().setVisible(true);                    
+                } else {
+                    
+                    JOptionPane.showMessageDialog(null, "Username/password salah");
+                }
+            }catch (SQLException sQLException){
+                
+                JOptionPane.showMessageDialog(null, sQLException.getMessage());
+            }
+        } else {
+            
+            JOptionPane.showMessageDialog(null, "Username/password tidak boleh kosong");
+        }
+
         dispose();
         new kasir().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
