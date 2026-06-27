@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  * @author rizal
  */
 public class LOGIN_KASIR extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LOGIN_KASIR.class.getName());
 
     /**
@@ -46,6 +46,7 @@ public class LOGIN_KASIR extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -156,43 +157,40 @@ public class LOGIN_KASIR extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         String username = tUserKasir.getText();
-        
+
         String password = tPasswordKasir.getText();
-        
-        if (username.length() != 0 && password.length() != 0){
-            try{
-                
+
+        if (username.length() != 0 && password.length() != 0) {
+            try {
+
                 String sql = "SELECT * FROM kasir WHERE username_kasir=? AND password_kasir=md5(?)";
-                
+
                 Connection con = koneksi.konek();
-                
+
                 PreparedStatement ps = con.prepareStatement(sql);
-                
+
                 ps.setString(1, username);
-                
+
                 ps.setString(2, password);
-                
+
                 ResultSet rs = ps.executeQuery();
-                
-                if(rs.next()){
-                    
+
+                if (rs.next()) {
+
                     dispose();
-                    new cikbohayy().setVisible(true);                    
+                    new kasir().setVisible(true);
                 } else {
-                    
+
                     JOptionPane.showMessageDialog(null, "Username/password salah");
                 }
-            }catch (SQLException sQLException){
-                
+            } catch (SQLException sQLException) {
+
                 JOptionPane.showMessageDialog(null, sQLException.getMessage());
             }
         } else {
-            
+
             JOptionPane.showMessageDialog(null, "Username/password tidak boleh kosong");
         }
-
-        dispose();
-        new kasir().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
