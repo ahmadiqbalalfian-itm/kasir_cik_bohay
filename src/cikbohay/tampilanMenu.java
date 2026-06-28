@@ -570,11 +570,6 @@ public class tampilanMenu extends javax.swing.JFrame {
 
     private void btnHapusMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusMenuActionPerformed
         // TODO add your handling code here:
-//        String idMenu = 
-    }//GEN-LAST:event_btnHapusMenuActionPerformed
-  
-    private void tblMenuSemuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSemuaMouseClicked
-        // TODO add your handling code here:
         // 1. Kita bikin wadah kosong untuk menentukan tabel mana yang lagi aktif
         javax.swing.JTable tabelAktif = null;
 
@@ -615,10 +610,10 @@ public class tampilanMenu extends javax.swing.JFrame {
             try {
                 String sql = "DELETE FROM menu WHERE id_menu = ?";
                 java.sql.Connection conn = koneksi.konek();
-                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+                java.sql.PreparedStatement ps = conn.prepareStatement(sql);
 
-                pst.setString(1, idMenu);
-                pst.execute();
+                ps.setString(1, idMenu);
+                ps.execute();
 
                 javax.swing.JOptionPane.showMessageDialog(this, "Menu berhasil dihapus.");
 
@@ -631,9 +626,13 @@ public class tampilanMenu extends javax.swing.JFrame {
                 load_tabel_menu_mie();
 
             } catch (java.sql.SQLException e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Gagal menghapus data ");
+                javax.swing.JOptionPane.showMessageDialog(null, "Gagal menghapus data ");
             }
         }
+    }//GEN-LAST:event_btnHapusMenuActionPerformed
+  
+    private void tblMenuSemuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSemuaMouseClicked
+        // TODO add your handling code here:
     }//GEN-LAST:event_tblMenuSemuaMouseClicked
 
     void load_tabel_menu_snack() {
