@@ -321,10 +321,17 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
         } catch (SQLException sQLException) {
             JOptionPane.showMessageDialog(null, "Data gagal disimpan!");
-        }
+        }       
+        new tampilanMenu().load_tabel_menu_semua();
+        new tampilanMenu().load_tabel_menu_seblak();
+        new tampilanMenu().load_tabel_menu_geprek();
+        new tampilanMenu().load_tabel_menu_mie();
+        new tampilanMenu().load_tabel_menu_minuman();
+        new tampilanMenu().load_tabel_menu_snack();        
         reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
