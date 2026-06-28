@@ -109,6 +109,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
     void reset() {
         tNamaMenu.setText(null);
         tHarga.setText(null);
+        cKategori.setSelectedItem(null);
     }
 
     /**
@@ -178,7 +179,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel1.setText("TAMBAH MENU BARU");
 
-        cKategori.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cKategori.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
 
         btnTambahMenu.setBackground(new java.awt.Color(0, 204, 51));
         btnTambahMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -325,12 +326,13 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         
         String NamaMenu = tNamaMenu.getText();
         
-        String Harga = tHarga.getText();
+// GANTI dengan baris di bawah ini biar yang masuk ke DB cuma ANGKA-nya saja (15000)
+        String Harga = tHarga.getText().replaceAll("[^\\d]", "");
        
 
         try {
 
-            String sql = "INSERT INTO menu (id_menu, id_kategori, , nama_menu,) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO menu (id_menu, id_kategori, nama_menu, harga) VALUES (?,?,?,?)";
 
             Connection con = koneksi.konek();
 
@@ -345,13 +347,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
         } catch (SQLException sQLException) {
             JOptionPane.showMessageDialog(null, "Data gagal disimpan!");
-        }       
-        new tampilanMenu().load_tabel_menu_semua();
-        new tampilanMenu().load_tabel_menu_seblak();
-        new tampilanMenu().load_tabel_menu_geprek();
-        new tampilanMenu().load_tabel_menu_mie();
-        new tampilanMenu().load_tabel_menu_minuman();
-        new tampilanMenu().load_tabel_menu_snack();        
+        }        
         reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
