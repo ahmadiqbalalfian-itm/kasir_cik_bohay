@@ -73,7 +73,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
 
             ps.setString(1, NamaKategori);
 
-            ResultSet resultSet = ps.executeQuery(sql);
+            ResultSet resultSet = ps.executeQuery();
 
             while (resultSet.next()) {
                 return resultSet.getString("id_kategori");
@@ -346,8 +346,9 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
         } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "Data gagal disimpan!");
+            JOptionPane.showMessageDialog(null, "Data gagal disimpan!" + sQLException.getMessage());
         }        
+        setKodeOtomatis();
         reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
