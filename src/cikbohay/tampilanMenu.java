@@ -29,6 +29,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         load_tabel_menu_geprek();
         load_tabel_menu_minuman();
         load_tabel_menu_mie();
+        load_tabel_menu_snack();
     }
 
     private void pindahKartuMenu(String namaKartuMenu) {
@@ -313,7 +314,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         model.addColumn("Kategori");
 
-        String sql = "SELECT * FROM menu WHERE id_kategori = 'k001'";
+        String sql = "SELECT * FROM menu WHERE id_kategori = 'k005'";
 
         try {
             Connection con = koneksi.konek();
@@ -563,7 +564,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         model.addColumn("Kategori");
 
-        String sql = "SELECT * FROM menu WHERE id_kategori = 'k003'";
+        String sql = "SELECT * FROM menu WHERE id_kategori = 'k004'";
 
         try {
             Connection con = koneksi.konek();
