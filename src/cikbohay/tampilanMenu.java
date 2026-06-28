@@ -26,6 +26,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         initComponents();
         
         load_tabel_menu_semua();
+        load_tabel_menu_seblak();
     }
 
     private void pindahKartuMenu(String namaKartuMenu) {
@@ -320,6 +321,47 @@ public class tampilanMenu extends javax.swing.JFrame {
         pindahKartuMenu("cardMenuSeblak");//menamppilkan menu seblak
     }//GEN-LAST:event_btnMenuSeblakActionPerformed
 
+        void load_tabel_menu_seblak() {
+
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID MENU");
+
+        model.addColumn("Nama Menu");
+        
+        model.addColumn("Harga");
+
+        model.addColumn("Kategori");
+
+        String sql = "SELECT * FROM menu WHERE id_kategori = 'k001'";
+
+        try {
+            Connection con = koneksi.konek();
+
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String idMenu = rs.getString("id_menu");
+
+                String namaMenu = rs.getString("nama_menu");
+                
+                String harga = rs.getString("harga");
+
+                String idKategori = rs.getString("id_kategori");
+
+                Object[] baris = {idMenu, namaMenu, harga, idKategori};
+                model.addRow(baris);
+            }
+
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Gagal mengambil data!");
+        }
+        tblMenuSeblak.setModel(model);
+    }
+        
     private void btnMenuGeprekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuGeprekActionPerformed
         // TODO add your handling code here:
         pindahKartuMenu("cardMenuGeprek");//menamppilkan menu Geprek
