@@ -390,8 +390,10 @@ public class tampilanMenu extends javax.swing.JFrame {
                 String idMenu = rs.getString("id_menu");
 
                 String namaMenu = rs.getString("nama_menu");
-
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
@@ -602,7 +604,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         String kategoriMenu = tabelAktif.getValueAt(barisTerpilih, 3).toString();
         // 5. Pop-up Konfirmasi
         int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
-                "Yakin ingin menghapus " + namaMenu +", "+ hargaMenu +", "+kategoriMenu +", "+"(" + idMenu + ")?",
+                "Yakin ingin menghapus " + namaMenu + ", " + hargaMenu + ", " + kategoriMenu + ", " + "(" + idMenu + ")?",
                 "Konfirmasi Hapus",
                 javax.swing.JOptionPane.YES_NO_OPTION);
 
@@ -630,7 +632,7 @@ public class tampilanMenu extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnHapusMenuActionPerformed
-  
+
     private void tblMenuSemuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSemuaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tblMenuSemuaMouseClicked
