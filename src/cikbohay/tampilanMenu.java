@@ -345,7 +345,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
                 String namaMenu = rs.getString("nama_menu");
 
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
@@ -392,7 +394,6 @@ public class tampilanMenu extends javax.swing.JFrame {
                 String namaMenu = rs.getString("nama_menu");
                 String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
                 // Set kembali ke text field ditambah tulisan "Rp " di depannya
-                
                 String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
@@ -439,7 +440,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
                 String namaMenu = rs.getString("nama_menu");
 
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
@@ -485,7 +488,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
                 String namaMenu = rs.getString("nama_menu");
 
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
@@ -531,7 +536,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
                 String namaMenu = rs.getString("nama_menu");
 
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
@@ -664,7 +671,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
                 String namaMenu = rs.getString("nama_menu");
 
-                String harga = rs.getString("harga");
+                String formatTitik = String.format("%,d", rs.getLong("harga")).replace(',', '.');
+                // Set kembali ke text field ditambah tulisan "Rp " di depannya
+                String harga = ("Rp " + formatTitik);
 
                 String idKategori = rs.getString("id_kategori");
 
