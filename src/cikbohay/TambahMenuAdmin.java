@@ -25,8 +25,43 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         initComponents();
         comboKategori();
         reset();
+        setKodeOtomatis();
     }
 
+    private void setKodeOtomatis() {
+        try {
+            // Ganti 'kode_menu' dan 'tabel_menu' sesuai dengan nama kolom dan tabel di database-mu
+            String sql = "SELECT id_menu FROM menu ORDER BY id_menu DESC LIMIT 1";
+            java.sql.Connection con = (java.sql.Connection) koneksi.konek(); // Sesuaikan dengan class koneksimu
+            java.sql.Statement st = con.createStatement();
+            java.sql.ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                // Kalau data sudah ada, ambil kode terakhir
+                String kodeTerakhir = rs.getString("id_menu");
+
+                // Potong 3 huruf pertama ("mnu"), ambil sisa angkanya, lalu tambah 1
+                String angkaSaja = kodeTerakhir.substring(3);
+                int angkaBaru = Integer.parseInt(angkaSaja) + 1;
+
+                // Format ulang jadi "mnu" + 4 digit angka (misal: 1 jadi 0001)
+                String kodeBaru = String.format("mnu%04d", angkaBaru);
+
+                // Masukkan ke Text Field kodemu (sesuaikan nama variabelnya)
+                tIdMenu.setText(kodeBaru);
+            } else {
+                // Kalau tabel masih kosong melompong, set kode pertama
+                tIdMenu.setText("mnu0001");
+            }
+
+            // Bikin field-nya nggak bisa diedit manual biar aman
+            tIdMenu.setEditable(false);
+
+        } catch (Exception e) {
+            System.out.println("Error bikin kode otomatis: " + e.getMessage());
+        }
+    }
+    
     //mengubah pilihan nama pada cKategori menjadi id_kategori
     String IdKategori(String NamaKategori) {
         try {
@@ -72,9 +107,8 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
     }
 
     void reset() {
-        tIdMenu.setText(null);
         tNamaMenu.setText(null);
-        tNamaMenu.setText(null);
+        tHarga.setText(null);
     }
 
     /**
@@ -102,28 +136,34 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        btnClose = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(181, 72, 72));
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
-        jLabel2.setText("KODE                   :");
+        jLabel2.setText("ID MENU               :");
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
-        jLabel3.setText("KATEGORI           :");
+        jLabel3.setText("KATEGORI            :");
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
-        jLabel4.setText("HARGA                 :");
+        jLabel4.setText("HARGA                  :");
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel5.setText("NAMA MENU         :");
 
-        tIdMenu.setEditable(false);
         tIdMenu.setBackground(new java.awt.Color(204, 204, 204));
+        tIdMenu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
 
         tHarga.setBackground(new java.awt.Color(204, 204, 204));
+        tHarga.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        tHarga.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tHargaKeyTyped(evt);
+            }
+        });
 
         tNamaMenu.setBackground(new java.awt.Color(204, 204, 204));
+        tNamaMenu.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         btnReset.setBackground(new java.awt.Color(255, 204, 0));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -135,7 +175,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
         jLabel1.setText("TAMBAH MENU BARU");
 
-        cKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cKategori.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         btnTambahMenu.setBackground(new java.awt.Color(0, 204, 51));
         btnTambahMenu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -156,14 +196,6 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tNamaMenu))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tIdMenu))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -171,8 +203,16 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tHarga)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnTambahMenu)))))
+                                .addGap(0, 40, Short.MAX_VALUE)
+                                .addComponent(btnTambahMenu))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tIdMenu)
+                            .addComponent(cKategori, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(60, 60, 60))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
@@ -220,11 +260,6 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Managemen System");
 
-        btnClose.setBackground(new java.awt.Color(181, 72, 72));
-        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-close-20.png"))); // NOI18N
-        btnClose.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-        btnClose.addActionListener(this::btnCloseActionPerformed);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -240,26 +275,17 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
-                                .addComponent(btnClose))))))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(jLabel8))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnClose)))
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -281,11 +307,6 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        // TODO add your handling code here:
-        setVisible(false);
-    }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
@@ -331,10 +352,13 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
+    private void tHargaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tHargaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tHargaKeyTyped
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnTambahMenu;
     private javax.swing.JComboBox<String> cKategori;
