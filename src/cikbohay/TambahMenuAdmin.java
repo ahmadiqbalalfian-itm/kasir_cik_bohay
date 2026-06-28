@@ -27,6 +27,27 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         reset();
     }
 
+        String IdKategori(String NamaKategori) {
+        try {
+            String sql = "SELECT * FROM kategori WHERE nama_kategori = ?";
+
+            Connection con = koneksi.konek();
+
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, NamaKategori);
+
+            ResultSet resultSet = ps.executeQuery(sql);
+
+            while (resultSet.next()) {
+                return resultSet.getString("id_kategori");
+            }
+        } catch (SQLException sQLException) {
+            return "";
+
+        }
+        return "";
+    }
     void comboKategori() {
         try {
             String sql = "SELECT * FROM kategori";
