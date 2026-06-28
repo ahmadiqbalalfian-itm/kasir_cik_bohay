@@ -70,26 +70,41 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Semua"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuSemuaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMenuSeblak">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Seblak"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuSeblakActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMenuGeprek">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Geprek"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuGeprekActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMenuMinuman">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Minuman"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuMinumanActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMenuSnack">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Snack"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMenuSnackActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMenuMie">
               <Properties>

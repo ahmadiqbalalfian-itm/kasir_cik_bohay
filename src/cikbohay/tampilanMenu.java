@@ -78,18 +78,43 @@ public class tampilanMenu extends javax.swing.JFrame {
         tombolMenu.setLayout(new java.awt.GridLayout(1, 0));
 
         btnMenuSemua.setText("Semua");
+        btnMenuSemua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuSemuaActionPerformed(evt);
+            }
+        });
         tombolMenu.add(btnMenuSemua);
 
         btnMenuSeblak.setText("Seblak");
+        btnMenuSeblak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuSeblakActionPerformed(evt);
+            }
+        });
         tombolMenu.add(btnMenuSeblak);
 
         btnMenuGeprek.setText("Geprek");
+        btnMenuGeprek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuGeprekActionPerformed(evt);
+            }
+        });
         tombolMenu.add(btnMenuGeprek);
 
         btnMenuMinuman.setText("Minuman");
+        btnMenuMinuman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuMinumanActionPerformed(evt);
+            }
+        });
         tombolMenu.add(btnMenuMinuman);
 
         btnMenuSnack.setText("Snack");
+        btnMenuSnack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMenuSnackActionPerformed(evt);
+            }
+        });
         tombolMenu.add(btnMenuSnack);
 
         btnMenuMie.setText("Mie LVL");
@@ -227,7 +252,33 @@ public class tampilanMenu extends javax.swing.JFrame {
 
     private void btnMenuMieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuMieActionPerformed
         // TODO add your handling code here:
+        pindahKartuMenu("cardMenuMie");//menamppilkan menu Mie LVL
     }//GEN-LAST:event_btnMenuMieActionPerformed
+
+    private void btnMenuSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSemuaActionPerformed
+        // TODO add your handling code here:
+        pindahKartuMenu("cardMenuSemua");//menamppilkan semua menu
+    }//GEN-LAST:event_btnMenuSemuaActionPerformed
+
+    private void btnMenuSeblakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSeblakActionPerformed
+        // TODO add your handling code here:
+        pindahKartuMenu("cardMenuSeblak");//menamppilkan menu seblak
+    }//GEN-LAST:event_btnMenuSeblakActionPerformed
+
+    private void btnMenuGeprekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuGeprekActionPerformed
+        // TODO add your handling code here:
+        pindahKartuMenu("cardMenuGeprek");//menamppilkan menu Geprek
+    }//GEN-LAST:event_btnMenuGeprekActionPerformed
+
+    private void btnMenuMinumanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuMinumanActionPerformed
+        // TODO add your handling code here:
+        pindahKartuMenu("cardMenuMinuman");//menamppilkan menu Minuman
+    }//GEN-LAST:event_btnMenuMinumanActionPerformed
+
+    private void btnMenuSnackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSnackActionPerformed
+        // TODO add your handling code here:
+        pindahKartuMenu("cardMenuSnack");//menamppilkan menu Snack
+    }//GEN-LAST:event_btnMenuSnackActionPerformed
 
     /**
      * @param args the command line arguments
