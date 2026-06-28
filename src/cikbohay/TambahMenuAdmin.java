@@ -27,7 +27,8 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         reset();
     }
 
-        String IdKategori(String NamaKategori) {
+    //mengubah pilihan nama pada cKategori menjadi id_kategori
+    String IdKategori(String NamaKategori) {
         try {
             String sql = "SELECT * FROM kategori WHERE nama_kategori = ?";
 
@@ -48,6 +49,9 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         }
         return "";
     }
+    
+    
+    //mengisi cKategori dengan nama kategori dari database
     void comboKategori() {
         try {
             String sql = "SELECT * FROM kategori";
@@ -66,13 +70,13 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         }
         cKategori.setSelectedItem(null);
     }
-    
-    void reset(){
-        tKode.setText(null);
+
+    void reset() {
+        tIdMenu.setText(null);
         tNamaMenu.setText(null);
         tNamaMenu.setText(null);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,7 +92,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        tKode = new javax.swing.JTextField();
+        tIdMenu = new javax.swing.JTextField();
         tHarga = new javax.swing.JTextField();
         tNamaMenu = new javax.swing.JTextField();
         btnReset = new javax.swing.JButton();
@@ -114,8 +118,8 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel5.setText("NAMA MENU         :");
 
-        tKode.setEditable(false);
-        tKode.setBackground(new java.awt.Color(204, 204, 204));
+        tIdMenu.setEditable(false);
+        tIdMenu.setBackground(new java.awt.Color(204, 204, 204));
 
         tHarga.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -158,7 +162,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tKode))
+                        .addComponent(tIdMenu))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,7 +186,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tKode)
+                    .addComponent(tIdMenu)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -291,6 +295,34 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
     private void btnTambahMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMenuActionPerformed
         // TODO add your handling code here:
         
+        String IdMenu = tIdMenu.getText();
+        
+        String Kategori = IdKategori(cKategori.getSelectedItem().toString());
+        
+        String NamaMenu = tNamaMenu.getText();
+        
+        String Harga = tHarga.getText();
+       
+
+        try {
+
+            String sql = "INSERT INTO menu (id_menu, id_kategori, , nama_menu,) VALUES (?,?,?,?)";
+
+            Connection con = koneksi.konek();
+
+            PreparedStatement statement = con.prepareStatement(sql);
+            //apa bedanya ps dan statement?
+            statement.setString(1, IdMenu);
+            statement.setString(2, Kategori);
+            statement.setString(3, NamaMenu);
+            statement.setString(4, Harga);
+            statement.execute();
+
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan!");
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal disimpan!");
+        }
+        reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
 
@@ -310,7 +342,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField tHarga;
-    private javax.swing.JTextField tKode;
+    private javax.swing.JTextField tIdMenu;
     private javax.swing.JTextField tNamaMenu;
     // End of variables declaration//GEN-END:variables
 }
