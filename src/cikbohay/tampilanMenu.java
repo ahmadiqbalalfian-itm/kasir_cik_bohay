@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cikbohay;
-
+import java.awt.CardLayout; //agar bisa pindah kartu menampilkan menu per keategori
 /**
  *
  * @author ACER
@@ -17,6 +17,13 @@ public class tampilanMenu extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void pindahKartuMenu(String namaKartuMenu){
+        CardLayout cl =//variabel cl (dengan tipe data atau apalah) CardLayout 
+                (CardLayout) panelMenu.getLayout(); //mengambil kartu dari panel utama
+        
+        cl.show //menunjukkan kartu
+        (panelMenu, namaKartuMenu); //dari kartu utama, diambil kartu yang mana
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
