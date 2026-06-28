@@ -354,6 +354,11 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
 
     private void tHargaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tHargaKeyTyped
         // TODO add your handling code here:
+        char huruf = evt.getKeyChar();
+        // Jika yang diketik bukan angka, abaikan/tolak
+        if (!Character.isDigit(huruf)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_tHargaKeyTyped
 
     
