@@ -3,7 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cikbohay;
+
 import java.awt.CardLayout; //agar bisa pindah kartu menampilkan menu per keategori
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ACER
@@ -15,15 +24,19 @@ public class tampilanMenu extends javax.swing.JFrame {
      */
     public tampilanMenu() {
         initComponents();
+        
+        load_tabel_menu_semua();
     }
 
-    private void pindahKartuMenu(String namaKartuMenu){
-        CardLayout cl =//variabel cl (dengan tipe data atau apalah) CardLayout 
+    private void pindahKartuMenu(String namaKartuMenu) {
+        CardLayout cl
+                =//variabel cl (dengan tipe data atau apalah) CardLayout 
                 (CardLayout) panelMenu.getLayout(); //mengambil kartu dari panel utama
-        
+
         cl.show //menunjukkan kartu
-        (panelMenu, namaKartuMenu); //dari kartu utama, diambil kartu yang mana
+                (panelMenu, namaKartuMenu); //dari kartu utama, diambil kartu yang mana
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -248,6 +261,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuMieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuMieActionPerformed
@@ -259,6 +273,47 @@ public class tampilanMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         pindahKartuMenu("cardMenuSemua");//menamppilkan semua menu
     }//GEN-LAST:event_btnMenuSemuaActionPerformed
+
+    void load_tabel_menu_semua() {
+
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID MENU");
+
+        model.addColumn("Nama Menu");
+        
+        model.addColumn("Harga");
+
+        model.addColumn("Kategori");
+
+        String sql = "SELECT * FROM menu";
+
+        try {
+            Connection con = koneksi.konek();
+
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String idMenu = rs.getString("id_menu");
+
+                String namaMenu = rs.getString("nama_menu");
+                
+                String harga = rs.getString("harga");
+
+                String idKategori = rs.getString("id_kategori");
+
+                Object[] baris = {idMenu, namaMenu, harga, idKategori};
+                model.addRow(baris);
+            }
+
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Gagal mengambil data!");
+        }
+        tblMenuSemua.setModel(model);
+    }
 
     private void btnMenuSeblakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSeblakActionPerformed
         // TODO add your handling code here:
