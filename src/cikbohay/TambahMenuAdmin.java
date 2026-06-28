@@ -157,6 +157,9 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         tHarga.setBackground(new java.awt.Color(204, 204, 204));
         tHarga.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         tHarga.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tHargaKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tHargaKeyTyped(evt);
             }
@@ -361,7 +364,27 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tHargaKeyTyped
 
+    private void tHargaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tHargaKeyReleased
+        // TODO add your handling code here:
+        // 1. Ambil teks yang ada sekarang, lalu hapus semua karakter selain angka
+    String hargaRaw = tHarga.getText().replaceAll("[^\\d]", "");
     
+    // 2. Kalau field-nya nggak kosong, kita format angkanya
+    if (!hargaRaw.isEmpty()) {
+        try {
+            long angka = Long.parseLong(hargaRaw);
+            
+            // Format angka menjadi ribuan dengan titik (contoh: 15.000)
+            String formatTitik = String.format("%,d", angka).replace(',', '.');
+            
+            // Set kembali ke text field ditambah tulisan "Rp " di depannya
+            tHarga.setText("Rp " + formatTitik);
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Error format harga: " + e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_tHargaKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReset;
