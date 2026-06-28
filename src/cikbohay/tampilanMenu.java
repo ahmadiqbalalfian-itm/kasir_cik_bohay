@@ -51,6 +51,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnTambahMenu = new javax.swing.JButton();
+        btnEditMenu = new javax.swing.JButton();
+        btnHapusMenu = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         tombolMenu = new javax.swing.JPanel();
         btnMenuSemua = new javax.swing.JButton();
@@ -86,6 +89,32 @@ public class tampilanMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
         jLabel1.setText("Menu Cik Bohay");
         jPanel1.add(jLabel1);
+
+        btnTambahMenu.setBackground(new java.awt.Color(0, 204, 51));
+        btnTambahMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTambahMenu.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambahMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-plus-20.png"))); // NOI18N
+        btnTambahMenu.setText("Tambah Menu Baru");
+        btnTambahMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahMenuActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTambahMenu);
+
+        btnEditMenu.setBackground(new java.awt.Color(255, 204, 0));
+        btnEditMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEditMenu.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icone/icons8-white-edit-20.png"))); // NOI18N
+        btnEditMenu.setText("Edit Menu");
+        jPanel1.add(btnEditMenu);
+
+        btnHapusMenu.setBackground(new java.awt.Color(255, 51, 51));
+        btnHapusMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHapusMenu.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapusMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icone/icons8-remove-20.png"))); // NOI18N
+        btnHapusMenu.setText("Hapus Menu");
+        jPanel1.add(btnHapusMenu);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
@@ -164,7 +193,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.add(cardMenuSemua, "card2");
 
-        cardMenuSeblak.setLayout(new java.awt.GridLayout());
+        cardMenuSeblak.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuSeblak.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -183,7 +212,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.add(cardMenuSeblak, "card2");
 
-        cardMenuGeprek.setLayout(new java.awt.GridLayout());
+        cardMenuGeprek.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuGeprek.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,7 +231,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.add(cardMenuGeprek, "card2");
 
-        cardMenuMinuman.setLayout(new java.awt.GridLayout());
+        cardMenuMinuman.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuMinuman.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -221,7 +250,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.add(cardMenuMinuman, "card2");
 
-        cardMenuSnack.setLayout(new java.awt.GridLayout());
+        cardMenuSnack.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuSnack.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -240,7 +269,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.add(cardMenuSnack, "card2");
 
-        cardMenuMie.setLayout(new java.awt.GridLayout());
+        cardMenuMie.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuMie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -502,6 +531,11 @@ public class tampilanMenu extends javax.swing.JFrame {
         pindahKartuMenu("cardMenuSnack");//menamppilkan menu Snack
     }//GEN-LAST:event_btnMenuSnackActionPerformed
 
+    private void btnTambahMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMenuActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnTambahMenuActionPerformed
+
         void load_tabel_menu_snack() {
 
         DefaultTableModel model = new DefaultTableModel();
@@ -578,12 +612,15 @@ public class tampilanMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btnEditMenu;
+    public javax.swing.JButton btnHapusMenu;
     private javax.swing.JButton btnMenuGeprek;
     private javax.swing.JButton btnMenuMie;
     private javax.swing.JButton btnMenuMinuman;
     private javax.swing.JButton btnMenuSeblak;
     private javax.swing.JButton btnMenuSemua;
     private javax.swing.JButton btnMenuSnack;
+    public javax.swing.JButton btnTambahMenu;
     private javax.swing.JPanel cardMenuGeprek;
     private javax.swing.JPanel cardMenuMie;
     private javax.swing.JPanel cardMenuMinuman;
