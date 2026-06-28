@@ -533,7 +533,22 @@ public class tampilanMenu extends javax.swing.JFrame {
 
     private void btnTambahMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMenuActionPerformed
         // TODO add your handling code here:
-        
+        // 1. Kita bikin bingkai pop-up dadakan (JDialog)
+// 'true' di sini artinya Modal (pengguna nggak bisa klik menu lain sebelum pop-up ini ditutup)
+        javax.swing.JDialog popUp = new javax.swing.JDialog(this, "Tambah Menu Baru", true);
+
+// 2. Kita panggil panel buatanmu yang nggak ada main method-nya itu
+        TambahMenuAdmin panelTambah = new TambahMenuAdmin();
+
+// 3. Kita masukkan panelnya ke dalam bingkai dadakan tadi
+        popUp.getContentPane().add(panelTambah);
+
+// 4. Kita atur ukurannya biar pas dengan isi panel, dan posisikan di tengah layar
+        popUp.pack();
+        popUp.setLocationRelativeTo(this);
+
+// 5. Tampilkan pop-up-nya!
+        popUp.setVisible(true);
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
         void load_tabel_menu_snack() {
