@@ -266,7 +266,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/cikbohay/icons8-plus-20.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Menu Ditambahkan"/>
+                    <Property name="text" type="java.lang.String" value="Tambahkan Menu"/>
                   </Properties>
                 </Component>
               </SubComponents>

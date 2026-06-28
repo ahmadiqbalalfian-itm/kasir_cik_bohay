@@ -23,6 +23,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
      */
     public TambahMenuAdmin() {
         initComponents();
+        comboKategori();
     }
 
     void comboKategori() {
@@ -97,7 +98,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-plus-20.png"))); // NOI18N
-        jLabel6.setText("Menu Ditambahkan");
+        jLabel6.setText("Tambahkan Menu");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
