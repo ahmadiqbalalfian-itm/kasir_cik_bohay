@@ -52,6 +52,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
         btnTambahMenu = new javax.swing.JButton();
         btnEditMenu = new javax.swing.JButton();
         btnHapusMenu = new javax.swing.JButton();
@@ -90,6 +91,18 @@ public class tampilanMenu extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
         jLabel1.setText("Menu Cik Bohay");
         jPanel1.add(jLabel1);
+
+        btnRefresh.setBackground(new java.awt.Color(51, 102, 255));
+        btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icone/icons8-white-reset-20 (1).png"))); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRefresh);
 
         btnTambahMenu.setBackground(new java.awt.Color(0, 204, 51));
         btnTambahMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -302,14 +315,14 @@ public class tampilanMenu extends javax.swing.JFrame {
         pindahKartuMenu("cardMenuMie");//menamppilkan menu Mie LVL
     }//GEN-LAST:event_btnMenuMieActionPerformed
 
-            void load_tabel_menu_mie() {
+    void load_tabel_menu_mie() {
 
         DefaultTableModel model = new DefaultTableModel();
 
         model.addColumn("ID MENU");
 
         model.addColumn("Nama Menu");
-        
+
         model.addColumn("Harga");
 
         model.addColumn("Kategori");
@@ -328,7 +341,7 @@ public class tampilanMenu extends javax.swing.JFrame {
                 String idMenu = rs.getString("id_menu");
 
                 String namaMenu = rs.getString("nama_menu");
-                
+
                 String harga = rs.getString("harga");
 
                 String idKategori = rs.getString("id_kategori");
@@ -342,7 +355,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         }
         tblMenuMie.setModel(model);
     }
-            
+
     private void btnMenuSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuSemuaActionPerformed
         // TODO add your handling code here:
         pindahKartuMenu("cardMenuSemua");//menamppilkan semua menu
@@ -552,7 +565,17 @@ public class tampilanMenu extends javax.swing.JFrame {
         popUp.setVisible(true);
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
-        void load_tabel_menu_snack() {
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        load_tabel_menu_semua();
+        load_tabel_menu_seblak();
+        load_tabel_menu_geprek();
+        load_tabel_menu_minuman();
+        load_tabel_menu_mie();
+        load_tabel_menu_snack();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    void load_tabel_menu_snack() {
 
         DefaultTableModel model = new DefaultTableModel();
 
@@ -592,6 +615,7 @@ public class tampilanMenu extends javax.swing.JFrame {
         }
         tblMenuSnack.setModel(model);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -636,6 +660,7 @@ public class tampilanMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMenuSeblak;
     private javax.swing.JButton btnMenuSemua;
     private javax.swing.JButton btnMenuSnack;
+    private javax.swing.JButton btnRefresh;
     public javax.swing.JButton btnTambahMenu;
     private javax.swing.JPanel cardMenuGeprek;
     private javax.swing.JPanel cardMenuMie;
