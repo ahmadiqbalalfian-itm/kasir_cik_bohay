@@ -25,7 +25,25 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         initComponents();
     }
 
+    void comboKategori() {
+        try {
+            String sql = "SELECT * FROM kategori";
 
+            Connection con = koneksi.konek();
+
+            Statement statement = con.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                cKategori.addItem(resultSet.getString("nama_kategori"));
+            }
+        } catch (SQLException sQLException) {
+
+        }
+        cKategori.setSelectedItem(null);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
