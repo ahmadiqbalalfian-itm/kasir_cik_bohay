@@ -62,7 +62,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
             System.out.println("Error bikin kode otomatis: " + e.getMessage());
         }
     }
-    
+
     //mengubah pilihan nama pada cKategori menjadi id_kategori
     String IdKategori(String NamaKategori) {
         try {
@@ -85,8 +85,7 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
         }
         return "";
     }
-    
-    
+
     //mengisi cKategori dengan nama kategori dari database
     void comboKategori() {
         try {
@@ -318,20 +317,34 @@ public class TambahMenuAdmin extends javax.swing.JPanel {
 
     private void btnTambahMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMenuActionPerformed
         // TODO add your handling code here:
-        
+
         String IdMenu = tIdMenu.getText();
-        
+
         String Kategori = IdKategori(cKategori.getSelectedItem().toString());
-        
+
         String NamaMenu = tNamaMenu.getText();
-        
+
 // GANTI dengan baris di bawah ini biar yang masuk ke DB cuma ANGKA-nya saja (15000)
         String Harga = tHarga.getText().replaceAll("[^\\d]", "");
-       
 
-try {
-    Connection con = koneksi.konek();
-    PreparedStatement statement;
+        Object itemKategori = cKategori.getSelectedItem();
+        String NamaKategori = (itemKategori != null) ? itemKategori.toString() : "";
+
+        // 2. PASANG SATPAM (VALIDASI KOSONG) DI SINI
+        if (IdMenu.isEmpty() || NamaMenu.isEmpty() || Harga.isEmpty() || NamaKategori.isEmpty()) {
+            // Munculkan pop-up peringatan
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Harap isi semua kolom terlebih dahulu!",
+                    "Peringatan",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+
+            // RETURN sangat penting! Ini yang bikin Java berhenti dan batal masuk ke try-catch SQL
+            return;
+        }
+        
+        try {
+            Connection con = koneksi.konek();
+            PreparedStatement statement;
 
             if (modeEdit == true) {
                 // MODE EDIT: Jalankan UPDATE
@@ -360,10 +373,9 @@ try {
 //            if (window instanceof javax.swing.JDialog) {
 //                window.dispose();
 //            }
-
         } catch (SQLException sQLException) {
             javax.swing.JOptionPane.showMessageDialog(null, "Data gagal diproses! " + sQLException.getMessage());
-        }      
+        }
         setKodeOtomatis();
         reset();
     }//GEN-LAST:event_btnTambahMenuActionPerformed
