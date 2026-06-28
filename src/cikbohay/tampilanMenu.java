@@ -52,7 +52,6 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnRefresh = new javax.swing.JButton();
         btnTambahMenu = new javax.swing.JButton();
         btnEditMenu = new javax.swing.JButton();
         btnHapusMenu = new javax.swing.JButton();
@@ -84,25 +83,13 @@ public class tampilanMenu extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tblMenuMie = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 20)); // NOI18N
         jLabel1.setText("Menu Cik Bohay");
         jPanel1.add(jLabel1);
-
-        btnRefresh.setBackground(new java.awt.Color(51, 102, 255));
-        btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnRefresh.setForeground(new java.awt.Color(255, 255, 255));
-        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icone/icons8-white-reset-20 (1).png"))); // NOI18N
-        btnRefresh.setText("Refresh");
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnRefresh);
 
         btnTambahMenu.setBackground(new java.awt.Color(0, 204, 51));
         btnTambahMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -128,6 +115,11 @@ public class tampilanMenu extends javax.swing.JFrame {
         btnHapusMenu.setForeground(new java.awt.Color(255, 255, 255));
         btnHapusMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icone/icons8-remove-20.png"))); // NOI18N
         btnHapusMenu.setText("Hapus Menu");
+        btnHapusMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusMenuActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnHapusMenu);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -188,6 +180,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         panelMenu.setLayout(new java.awt.CardLayout());
 
+        cardMenuSemua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0), 5));
         cardMenuSemua.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuSemua.setModel(new javax.swing.table.DefaultTableModel(
@@ -201,12 +194,18 @@ public class tampilanMenu extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuSemua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuSemuaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMenuSemua);
 
         cardMenuSemua.add(jScrollPane1);
 
-        panelMenu.add(cardMenuSemua, "card2");
+        panelMenu.add(cardMenuSemua, "cardMenuSemua");
 
+        cardMenuSeblak.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 0), 5));
         cardMenuSeblak.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuSeblak.setModel(new javax.swing.table.DefaultTableModel(
@@ -224,8 +223,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         cardMenuSeblak.add(jScrollPane2);
 
-        panelMenu.add(cardMenuSeblak, "card2");
+        panelMenu.add(cardMenuSeblak, "cardMenuSeblak");
 
+        cardMenuGeprek.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 51), 5));
         cardMenuGeprek.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuGeprek.setModel(new javax.swing.table.DefaultTableModel(
@@ -243,8 +243,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         cardMenuGeprek.add(jScrollPane3);
 
-        panelMenu.add(cardMenuGeprek, "card2");
+        panelMenu.add(cardMenuGeprek, "cardMenuGeprek");
 
+        cardMenuMinuman.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255), 5));
         cardMenuMinuman.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuMinuman.setModel(new javax.swing.table.DefaultTableModel(
@@ -262,8 +263,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         cardMenuMinuman.add(jScrollPane4);
 
-        panelMenu.add(cardMenuMinuman, "card2");
+        panelMenu.add(cardMenuMinuman, "cardMenuMinuman");
 
+        cardMenuSnack.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 51), 5));
         cardMenuSnack.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuSnack.setModel(new javax.swing.table.DefaultTableModel(
@@ -281,8 +283,9 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         cardMenuSnack.add(jScrollPane5);
 
-        panelMenu.add(cardMenuSnack, "card2");
+        panelMenu.add(cardMenuSnack, "cardMenuSnack");
 
+        cardMenuMie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 102), 5));
         cardMenuMie.setLayout(new java.awt.GridLayout(1, 0));
 
         tblMenuMie.setModel(new javax.swing.table.DefaultTableModel(
@@ -300,7 +303,7 @@ public class tampilanMenu extends javax.swing.JFrame {
 
         cardMenuMie.add(jScrollPane6);
 
-        panelMenu.add(cardMenuMie, "card2");
+        panelMenu.add(cardMenuMie, "cardMenuMie");
 
         jPanel2.add(panelMenu, java.awt.BorderLayout.CENTER);
 
@@ -565,15 +568,73 @@ public class tampilanMenu extends javax.swing.JFrame {
         popUp.setVisible(true);
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+    private void btnHapusMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusMenuActionPerformed
         // TODO add your handling code here:
-        load_tabel_menu_semua();
-        load_tabel_menu_seblak();
-        load_tabel_menu_geprek();
-        load_tabel_menu_minuman();
-        load_tabel_menu_mie();
-        load_tabel_menu_snack();
-    }//GEN-LAST:event_btnRefreshActionPerformed
+//        String idMenu = 
+    }//GEN-LAST:event_btnHapusMenuActionPerformed
+  
+    private void tblMenuSemuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSemuaMouseClicked
+        // TODO add your handling code here:
+        // 1. Kita bikin wadah kosong untuk menentukan tabel mana yang lagi aktif
+        javax.swing.JTable tabelAktif = null;
+
+        // 2. Kita cek satu-satu, tabel mana yang barisnya lagi diklik (nilainya bukan -1)
+        if (tblMenuSemua.getSelectedRow() != -1) {
+            tabelAktif = tblMenuSemua;
+        } else if (tblMenuSeblak.getSelectedRow() != -1) {
+            tabelAktif = tblMenuSeblak;
+        } else if (tblMenuGeprek.getSelectedRow() != -1) {
+            tabelAktif = tblMenuGeprek;
+        } else if (tblMenuMinuman.getSelectedRow() != -1) {
+            tabelAktif = tblMenuMinuman;
+        } else if (tblMenuSnack.getSelectedRow() != -1) {
+            tabelAktif = tblMenuSnack;
+        } else if (tblMenuMie.getSelectedRow() != -1) {
+            tabelAktif = tblMenuMie;
+        }
+
+        // 3. Kalau admin belum klik tabel apa-apa di tab manapun, kasih peringatan
+        if (tabelAktif == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Klik dulu menu yang mau dihapus di tabel ya!");
+            return;
+        }
+
+        // 4. Ambil ID dan Nama dari tabel yang terdeteksi aktif tadi
+        int barisTerpilih = tabelAktif.getSelectedRow();
+        String idMenu = tabelAktif.getValueAt(barisTerpilih, 0).toString();
+        String namaMenu = tabelAktif.getValueAt(barisTerpilih, 1).toString();
+        String hargaMenu = tabelAktif.getValueAt(barisTerpilih, 2).toString();
+        String kategoriMenu = tabelAktif.getValueAt(barisTerpilih, 3).toString();
+        // 5. Pop-up Konfirmasi
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Yakin ingin menghapus " + namaMenu +", "+ hargaMenu +", "+kategoriMenu +", "+"(" + idMenu + ")?",
+                "Konfirmasi Hapus",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+            try {
+                String sql = "DELETE FROM menu WHERE id_menu = ?";
+                java.sql.Connection conn = koneksi.konek();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+
+                pst.setString(1, idMenu);
+                pst.execute();
+
+                javax.swing.JOptionPane.showMessageDialog(this, "Menu berhasil dihapus.");
+
+                // 6. Refresh semua tabel
+                load_tabel_menu_semua();
+                load_tabel_menu_seblak();
+                load_tabel_menu_geprek();
+                load_tabel_menu_minuman();
+                load_tabel_menu_snack();
+                load_tabel_menu_mie();
+
+            } catch (java.sql.SQLException e) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal menghapus data ");
+            }
+        }
+    }//GEN-LAST:event_tblMenuSemuaMouseClicked
 
     void load_tabel_menu_snack() {
 
@@ -660,7 +721,6 @@ public class tampilanMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnMenuSeblak;
     private javax.swing.JButton btnMenuSemua;
     private javax.swing.JButton btnMenuSnack;
-    private javax.swing.JButton btnRefresh;
     public javax.swing.JButton btnTambahMenu;
     private javax.swing.JPanel cardMenuGeprek;
     private javax.swing.JPanel cardMenuMie;
