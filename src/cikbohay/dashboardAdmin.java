@@ -817,6 +817,11 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuSeblak.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuSeblakMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblMenuSeblak);
 
         cardMenuSeblak.add(jScrollPane2);
@@ -837,6 +842,11 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuGeprek.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuGeprekMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblMenuGeprek);
 
         cardMenuGeprek.add(jScrollPane3);
@@ -857,6 +867,11 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuMinuman.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuMinumanMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblMenuMinuman);
 
         cardMenuMinuman.add(jScrollPane4);
@@ -877,6 +892,11 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuSnack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuSnackMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tblMenuSnack);
 
         cardMenuSnack.add(jScrollPane5);
@@ -897,6 +917,11 @@ public class dashboardAdmin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuMie.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuMieMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(tblMenuMie);
 
         cardMenuMie.add(jScrollPane6);
@@ -1483,6 +1508,31 @@ public class dashboardAdmin extends javax.swing.JFrame {
         panelContent.revalidate();
         panelContent.repaint();
     }//GEN-LAST:event_btnTutupEditMenuActionPerformed
+
+    private void tblMenuSeblakMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSeblakMouseClicked
+        // TODO add your handling code here:
+        editTabelMenu();
+    }//GEN-LAST:event_tblMenuSeblakMouseClicked
+
+    private void tblMenuGeprekMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuGeprekMouseClicked
+        // TODO add your handling code here:
+        editTabelMenu();
+    }//GEN-LAST:event_tblMenuGeprekMouseClicked
+
+    private void tblMenuMinumanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMinumanMouseClicked
+        // TODO add your handling code here:
+        editTabelMenu();
+    }//GEN-LAST:event_tblMenuMinumanMouseClicked
+
+    private void tblMenuSnackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSnackMouseClicked
+        // TODO add your handling code here:
+        editTabelMenu();
+    }//GEN-LAST:event_tblMenuSnackMouseClicked
+
+    private void tblMenuMieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMieMouseClicked
+        // TODO add your handling code here:
+        editTabelMenu();
+    }//GEN-LAST:event_tblMenuMieMouseClicked
 
     /**
      * @param args the command line arguments
