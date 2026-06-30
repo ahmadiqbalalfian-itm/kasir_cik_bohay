@@ -1184,7 +1184,7 @@ public class dashboardAdmin extends javax.swing.JFrame {
         modeEdit = false;
 
         // Ganti tulisan di panel kanan biar sesuai
-        btnTambahMenu.setText("Tambahkan Menu");
+        btnTambahEditMenu.setText("Tambahkan Menu");
         tPesanMenu.setText("TAMBAH MENU BARU");
 
         // 6. BUKA LACI FORM-NYA! 
