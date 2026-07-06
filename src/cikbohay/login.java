@@ -34,6 +34,7 @@ public class login extends javax.swing.JFrame {
         btnKasir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -43,12 +44,14 @@ public class login extends javax.swing.JFrame {
         btnAdmin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAdmin.setForeground(new java.awt.Color(255, 255, 255));
         btnAdmin.setText("ADMIN");
+        btnAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAdmin.addActionListener(this::btnAdminActionPerformed);
 
         btnKasir.setBackground(new java.awt.Color(255, 153, 51));
         btnKasir.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnKasir.setForeground(new java.awt.Color(255, 255, 255));
         btnKasir.setText("KASIR");
+        btnKasir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnKasir.addActionListener(this::btnKasirActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

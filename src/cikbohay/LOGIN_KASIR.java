@@ -66,11 +66,13 @@ public class LOGIN_KASIR extends javax.swing.JFrame {
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogin.setText("LOGIN");
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.setPreferredSize(new java.awt.Dimension(75, 27));
         btnLogin.addActionListener(this::btnLoginActionPerformed);
 
         btnKembali.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnKembali.setText("KEMBALI");
+        btnKembali.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnKembali.addActionListener(this::btnKembaliActionPerformed);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/logo_cikbohay31.jpeg"))); // NOI18N

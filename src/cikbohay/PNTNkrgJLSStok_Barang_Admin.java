@@ -8,12 +8,12 @@ package cikbohay;
  *
  * @author macbookairm12020
  */
-public class Stok_Barang_Admin extends javax.swing.JPanel {
+public class PNTNkrgJLSStok_Barang_Admin extends javax.swing.JPanel {
 
     /**
      * Creates new form Stok_Barang_Admin
      */
-    public Stok_Barang_Admin() {
+    public PNTNkrgJLSStok_Barang_Admin() {
         initComponents();
     }
 
@@ -333,8 +333,8 @@ public class Stok_Barang_Admin extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahMenuActionPerformed
-        // TODO add your handling code here:
-        new TambahMenuAdmin().setVisible(true);
+//        // TODO add your handling code here:
+//        new TambahMenuAdmin().setVisible(true);
     }//GEN-LAST:event_btnTambahMenuActionPerformed
 
 

@@ -70,6 +70,7 @@ public class LOGIN_ADMIN extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -89,10 +90,12 @@ public class LOGIN_ADMIN extends javax.swing.JFrame {
 
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnLogin.setText("LOGIN");
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(this::btnLoginActionPerformed);
 
         btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnBack.setText("KEMBALI");
+        btnBack.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBack.addActionListener(this::btnBackActionPerformed);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/logo_cikbohay31.jpeg"))); // NOI18N
@@ -175,9 +178,10 @@ public class LOGIN_ADMIN extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String username = tUserAdmin.getText();
+        String username = tUserAdmin.getText().trim();
         
-        String password = tPasswordAdmin.getText();
+        String password = new String(tPasswordAdmin.getPassword());
+//tPasswordAdmin.getText();
         
         if (username.length() != 0 && password.length() != 0){
             try{
@@ -197,7 +201,7 @@ public class LOGIN_ADMIN extends javax.swing.JFrame {
                 if(rs.next()){
                     
                     dispose();
-                    new cikbohayy().setVisible(true);                    
+                    new dashboardAdmin().setVisible(true);                    
                 } else {
                     
                     JOptionPane.showMessageDialog(null, "Username/password salah");
