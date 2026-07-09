@@ -12,22 +12,32 @@ import javax.swing.WindowConstants;
  */
 public class Kasirtransaksi extends javax.swing.JPanel {
 
+    // Variabel untuk mengingat transaksi terakhir yang mau dicetak
+    public static String idNotaTerakhir = "";
+
     /**
      * Creates new form Kasirtransaksi
      */
     public Kasirtransaksi() {
         initComponents();
         reset();
+
+        // Ubah warna tombol struk jadi abu-abu saat kasir pertama kali dibuka
+        btnStruk2.setBackground(java.awt.Color.GRAY);
+
+        // Mengosongkan baris default bawaan NetBeans pada tabel pesanan
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblPesanan2.getModel();
+        model.setRowCount(0);
     }
-    
-    void reset(){
+
+    void reset() {
         tKode2.setText(null);
         tNamaMenu2.setText(null);
         tHarga2.setText(null);
         tJumlah2.setText(null);
-        tUangBayar2.setText(null);
-        tKembalian2.setText(null);
-        tSubTotal2.setText(null);
+//        tUangBayar2.setText(null);
+//        tKembalian2.setText(null);
+//        tSubTotal2.setText(null);
     }
 
     /**
@@ -84,9 +94,10 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         kasir.setMaximumSize(new java.awt.Dimension(1099, 32767));
-        kasir.setLayout(new java.awt.GridLayout());
+        kasir.setLayout(new java.awt.GridLayout(1, 0));
 
-        inputTransaksi2.setPreferredSize(new java.awt.Dimension(505, 533));
+        inputTransaksi2.setMaximumSize(new java.awt.Dimension(0, 0));
+        inputTransaksi2.setPreferredSize(new java.awt.Dimension(0, 0));
         inputTransaksi2.setRequestFocusEnabled(false);
         inputTransaksi2.setLayout(new java.awt.BorderLayout());
 
@@ -194,6 +205,11 @@ public class Kasirtransaksi extends javax.swing.JPanel {
 
         tKode2.setEditable(false);
         tKode2.setBackground(new java.awt.Color(204, 204, 204));
+        tKode2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tKode2MouseClicked(evt);
+            }
+        });
         tKode2.addActionListener(this::tKode2ActionPerformed);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -297,9 +313,6 @@ public class Kasirtransaksi extends javax.swing.JPanel {
 
         tblPesanan2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -318,6 +331,14 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         jLabel60.setText("Subtotal");
 
         tUangBayar2.setBackground(new java.awt.Color(204, 204, 204));
+        tUangBayar2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tUangBayar2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tUangBayar2KeyTyped(evt);
+            }
+        });
 
         tKembalian2.setEditable(false);
         tKembalian2.setBackground(new java.awt.Color(204, 204, 204));
@@ -461,16 +482,203 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         add(menuKasir);
     }// </editor-fold>//GEN-END:initComponents
 
+//    // Method ini wajib public static agar bisa dipanggil dari Qris.java
+//    public static void tampilkanMenu() {
+//        cikbohay.dashboardAdmin adminView = new cikbohay.dashboardAdmin();
+//        cikbohay.dashboardAdmin.isKasirMode = true;
+//
+//        // Sembunyikan tombol admin
+//        adminView.btnTambahMenu.setVisible(false);
+//        adminView.btnEditMenu.setVisible(false);
+//        adminView.btnHapusMenu.setVisible(false);
+//
+//        // --- KUNCI JAWABANNYA ADA DI SINI ---
+//        // Kita harus "memaksa" adminView untuk menghitung ukuran komponennya
+//        // meskipun jendelanya tidak kita tampilkan (invisible).
+//        adminView.pack();
+//
+//        // Copot isi panel kanan, lalu pasang menu
+//        menuKasir.removeAll();
+//        menuKasir.setLayout(new java.awt.BorderLayout());
+//        menuKasir.add(adminView.tampilanMenu, java.awt.BorderLayout.CENTER);
+//
+//        // Refresh UI
+//        menuKasir.revalidate();
+//        menuKasir.repaint();
+//    }
+
     private void btnStruk2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStruk2ActionPerformed
         // TODO add your handling code here:
+// 1. Cek apakah ada ID Nota yang tersimpan?
+        if (idNotaTerakhir.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Tidak ada transaksi untuk dicetak!\nSilakan pilih metode pembayaran (Cash/QRIS) terlebih dahulu.",
+                    "Peringatan Cetak Struk",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Panggil panel Struk_cikbohay
+        Struk_cikbohay panelStruk = new Struk_cikbohay();
+
+        // --- TAMBAHKAN BARIS INI UNTUK MENYUNTIKKAN DATA KE STRUK ---
+        panelStruk.muatDataStruk(idNotaTerakhir);
+
+        // --- KODINGAN BARU: Bungkus JPanel ke dalam JDialog ---
+        javax.swing.JDialog jendelaStruk = new javax.swing.JDialog();
+        jendelaStruk.setTitle("Cetak Struk - Cik Bohay");
+        jendelaStruk.setModal(true); // Modal = Jendela ini harus ditutup dulu baru bisa klik form kasir lagi
+        jendelaStruk.getContentPane().add(panelStruk); // Masukkan panel struk ke dalam jendela
+        jendelaStruk.pack(); // Sesuaikan ukuran jendela otomatis dengan ukuran panel
+
+        // Sekarang setLocationRelativeTo BISA BERJALAN karena dipasang di JDialog!
+        jendelaStruk.setLocationRelativeTo(this);
+        jendelaStruk.setVisible(true); // Tampilkan pop-up struknya
+        // ------------------------------------------------------
+
+        // 3. MATIKAN LAGI tombol struknya setelah sukses dipanggil (Kembali ke mode awal)
+        idNotaTerakhir = "";
+        btnStruk2.setBackground(java.awt.Color.GRAY);
     }//GEN-LAST:event_btnStruk2ActionPerformed
 
     private void btnCash2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCash2ActionPerformed
         // TODO add your handling code here:
+        // ==========================================
+        // 1. VALIDASI AWAL KASIR
+        // ==========================================
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblPesanan2.getModel();
+
+        // Cek apakah keranjang kosong
+        if (model.getRowCount() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Keranjang masih kosong, tidak ada yang bisa disimpan!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Bersihkan karakter selain angka dari Subtotal dan Uang Bayar
+        String subtotalRaw = tSubTotal2.getText().replaceAll("[^\\d]", "");
+        String bayarRaw = tUangBayar2.getText().replaceAll("[^\\d]", "");
+
+        if (bayarRaw.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Masukkan nominal Uang Bayar terlebih dahulu!");
+            return;
+        }
+
+        long subtotal = Long.parseLong(subtotalRaw);
+        long bayar = Long.parseLong(bayarRaw);
+
+        // Cek apakah uangnya cukup
+        if (bayar < subtotal) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Uang pembayaran kurang dari total belanja!", "Peringatan", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // ==========================================
+        // 2. PROSES PENYIMPANAN DATABASE
+        // ==========================================
+        try {
+            java.sql.Connection conn = koneksi.konek(); // Panggil koneksi database
+            java.sql.Statement st = conn.createStatement();
+
+            // --- A. GENERATE ID NOTA OTOMATIS (Format: NTA000001 -> char 9) ---
+            String idNota = "NTA000001";
+            java.sql.ResultSet rsNota = st.executeQuery("SELECT MAX(id_nota) FROM nota");
+            if (rsNota.next() && rsNota.getString(1) != null) {
+                long urut = Long.parseLong(rsNota.getString(1).substring(3)) + 1;
+                idNota = "NTA" + String.format("%06d", urut);
+            }
+
+            // --- B. INSERT DATA KE TABEL NOTA ---
+            String sqlNota = "INSERT INTO nota (id_nota, waktu_transaksi, total_pesanan, metode_pembayaran) VALUES (?, ?, ?, ?)";
+            java.sql.PreparedStatement psNota = conn.prepareStatement(sqlNota);
+            psNota.setString(1, idNota);
+            psNota.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis())); // Rekam waktu saat ini (Real-time)
+            psNota.setBigDecimal(3, new java.math.BigDecimal(subtotal));
+            psNota.setString(4, "Cash"); // Masukkan metode sesuai ENUM
+            psNota.executeUpdate();
+
+            // --- C. PREPARE ID PESANAN OTOMATIS (Format: PSN0000001 -> char 10) ---
+            long urutPesanan = 1;
+            java.sql.ResultSet rsPesanan = st.executeQuery("SELECT MAX(id_pesanan) FROM pesanan");
+            if (rsPesanan.next() && rsPesanan.getString(1) != null) {
+                urutPesanan = Long.parseLong(rsPesanan.getString(1).substring(3)) + 1;
+            }
+
+            // --- D. LOOPING: INSERT SEMUA BARANG KE TABEL PESANAN ---
+            String sqlPesanan = "INSERT INTO pesanan (id_pesanan, jumlah, total, id_menu, id_kasir, id_nota) VALUES (?, ?, ?, ?, ?, ?)";
+            java.sql.PreparedStatement psPesanan = conn.prepareStatement(sqlPesanan);
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                // Cetak ID Pesanan baru untuk setiap baris barang
+                String idPesanan = "PSN" + String.format("%07d", urutPesanan++);
+
+                // Ambil ID Menu (Ingat trik sebelumnya: kita memotong teks "mnu0001 - Seblak Jeletot")
+                String menuTampil = model.getValueAt(i, 0).toString();
+                String idMenu = menuTampil.split(" - ")[0];
+
+                // Ambil jumlah dan subtotal per baris
+                int jumlah = Integer.parseInt(model.getValueAt(i, 2).toString());
+                String totalBarisRaw = model.getValueAt(i, 3).toString().replaceAll("[^\\d]", "");
+                java.math.BigDecimal totalBaris = new java.math.BigDecimal(totalBarisRaw);
+
+                // Eksekusi Insert
+                psPesanan.setString(1, idPesanan);
+                psPesanan.setInt(2, jumlah);
+                psPesanan.setBigDecimal(3, totalBaris);
+                psPesanan.setString(4, idMenu);
+                psPesanan.setString(5, "ksr01"); // Saya hardcode ke akun kasir yang ada di databasemu
+                psPesanan.setString(6, idNota);
+                psPesanan.executeUpdate();
+            }
+
+            // ==========================================
+            // 3. FINALISASI (BERSIHKAN LAYAR)
+            // ==========================================
+            javax.swing.JOptionPane.showMessageDialog(this, "Transaksi Cash Berhasil!\nKembalian: " + tKembalian2.getText(), "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // ========================================================
+            // LANGKAH 4: NYALAKAN TOMBOL STRUK UNTUK CASH
+            // ========================================================
+            idNotaTerakhir = idNota; // Simpan ID Nota ke ingatan statis
+            btnStruk2.setBackground(new java.awt.Color(255, 204, 0)); // Ubah warna jadi kuning kembali
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Transaksi Cash Berhasil!\nSilakan cetak struk.", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // Baru setelah itu keranjang dibersihkan
+            model.setRowCount(0);
+            tUangBayar2.setText("");
+            tKembalian2.setText("");
+            reset();
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal menyimpan transaksi: " + e.getMessage(), "Error Database", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnCash2ActionPerformed
 
     private void btnQris2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQris2ActionPerformed
         // TODO add your handling code here:
+        // 1. Validasi keranjang kosong
+        if (tSubTotal2.getText().isEmpty() || tSubTotal2.getText().equals("Rp 0")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Keranjang masih kosong!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Otomatis set uang bayar pas sesuai subtotal
+        tUangBayar2.setText(tSubTotal2.getText());
+        hitungKembalian();
+
+        // 3. Panggil panel Qris
+        Qris panelQris = new Qris();
+
+        // 4. BUNGKUS PANEL QRIS JADI POP-UP JENDELA (Persis kayak Struk!)
+        javax.swing.JDialog jendelaQris = new javax.swing.JDialog();
+        jendelaQris.setTitle("Pembayaran QRIS - Cik Bohay");
+        jendelaQris.setModal(true); // Mengunci layar kasir agar fokus ke QRIS
+        jendelaQris.getContentPane().add(panelQris);
+        jendelaQris.pack();
+
+        // Munculkan di tengah layar
+        jendelaQris.setLocationRelativeTo(this);
+        jendelaQris.setVisible(true);
     }//GEN-LAST:event_btnQris2ActionPerformed
 
     private void btnQris2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQris2MouseClicked
@@ -479,14 +687,118 @@ public class Kasirtransaksi extends javax.swing.JPanel {
 
     private void btnReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset2ActionPerformed
         // TODO add your handling code here:
+        reset();
     }//GEN-LAST:event_btnReset2ActionPerformed
 
     private void btnHapus2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapus2ActionPerformed
         // TODO add your handling code here:
+        // 1. Cek apakah kasir sudah memilih baris di tabel keranjang (tblPesanan2)
+        int barisTerpilih = tblPesanan2.getSelectedRow();
+
+        if (barisTerpilih == -1) {
+            // Kalau belum klik tabel, kasih peringatan
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Silakan pilih pesanan di keranjang yang ingin dihapus terlebih dahulu!",
+                    "Peringatan",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; // Hentikan proses
+        }
+
+        // 2. Ambil nama menu dari baris yang diklik untuk ditampilkan di pesan konfirmasi
+        // Di tabelmu, nama menu ada di kolom pertama (index 0)
+        String menuYangDihapus = tblPesanan2.getValueAt(barisTerpilih, 0).toString();
+
+        // 3. Tampilkan Pop-up Konfirmasi Hapus
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Apakah Anda yakin ingin membatalkan/menghapus pesanan:\n" + menuYangDihapus + "?",
+                "Konfirmasi Hapus Pesanan",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        // 4. Jika kasir mengklik "YES"
+        if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+            // Panggil model tabelnya
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblPesanan2.getModel();
+
+            // Hapus baris yang sedang dipilih
+            model.removeRow(barisTerpilih);
+
+            // HITUNG ULANG TOTAL BELANJA! (Supaya subtotal otomatis berkurang)
+            hitungTotalBelanja();
+
+            // Bersihkan form inputan kasir
+            reset();
+        }
     }//GEN-LAST:event_btnHapus2ActionPerformed
+
+    private void hitungTotalBelanja() {
+        int totalBelanja = 0;
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblPesanan2.getModel();
+
+// Cek bagian looping di hitungTotalBelanja:
+        for (int i = 0; i < model.getRowCount(); i++) {
+            // Ambil index 3 (Kolom Subtotal)
+            String subtotalRaw = model.getValueAt(i, 3).toString().replaceAll("[^\\d]", "");
+            totalBelanja += Long.parseLong(subtotalRaw);
+        }
+
+        // Tampilkan totalnya ke textfield SubTotal di layar
+        String formatTitik = String.format("%,d", totalBelanja).replace(',', '.');
+        tSubTotal2.setText("Rp " + formatTitik);
+    }
 
     private void btnTambah2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambah2ActionPerformed
         // TODO add your handling code here:
+        // 1. VALIDASI: Pastikan kasir sudah milih menu dan isi jumlah
+        if (tKode2.getText().isEmpty() || tJumlah2.getText().isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Pilih menu dan masukkan jumlah terlebih dahulu!", "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // 2. AMBIL DATA
+            String idMenu = tKode2.getText();
+            String namaMenu = tNamaMenu2.getText();
+
+            // Bersihkan "Rp" dan titik dari harga biar jadi angka murni
+            String hargaRaw = tHarga2.getText().replaceAll("[^\\d]", "");
+            int harga = Integer.parseInt(hargaRaw);
+
+            // Ambil jumlah pesanan
+            int jumlah = Integer.parseInt(tJumlah2.getText());
+
+            // 3. HITUNG SUBTOTAL PER ITEM
+            int subtotal = harga * jumlah;
+
+            // 4. FORMAT TAMPILAN KE TABEL
+            String hargaFormat = "Rp " + String.format("%,d", harga).replace(',', '.');
+            String subtotalFormat = "Rp " + String.format("%,d", subtotal).replace(',', '.');
+
+            // Trik Jitu: Gabungkan ID dan Nama Menu di kolom pertama.
+            // Nanti waktu mau nyimpen ke database, kita tinggal potong teksnya buat ambil ID-nya aja.
+            String menuTampil = idMenu + " - " + namaMenu;
+
+            // 5. MASUKKAN KE KERANJANG (tblPesanan2)
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblPesanan2.getModel();
+            model.addRow(new Object[]{
+                menuTampil, // Kolom Menu
+                hargaFormat, // Kolom Harga
+                jumlah, // Kolom Jumlah
+                subtotalFormat // Kolom Subtotal
+            });
+
+            // 6. HITUNG ULANG TOTAL SELURUH BELANJA
+            hitungTotalBelanja();
+
+            // 7. BERSIHKAN FORM (Siap untuk menu berikutnya)
+            // Tambahkan ini di baris akhir btnTambah2ActionPerformed
+            hitungTotalBelanja();
+            hitungKembalian();
+            reset();
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Masukkan jumlah dengan format angka yang benar!");
+        }
+        tKode2.requestFocus(); // Kursor otomatis balik ke barcode
     }//GEN-LAST:event_btnTambah2ActionPerformed
 
     private void tNamaMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tNamaMenu2ActionPerformed
@@ -495,12 +807,85 @@ public class Kasirtransaksi extends javax.swing.JPanel {
 
     private void tNamaMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tNamaMenu2MouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_tNamaMenu2MouseClicked
 
     private void tKode2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tKode2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tKode2ActionPerformed
+
+    private void tKode2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tKode2MouseClicked
+        // 1. Buat object dari dashboardAdmin
+        cikbohay.dashboardAdmin adminView = new cikbohay.dashboardAdmin();
+
+        // 2. Bersihkan panel utama tempat menu muncul
+        menuKasir.removeAll(); // Ganti "menuKasir" dengan nama panel/container di kode kamu
+
+        // 3. Langsung masukkan tampilanMenu dari object adminView
+        menuKasir.add(adminView.tampilanMenu);
+
+        // 4. Refresh tampilan
+        menuKasir.repaint();
+        menuKasir.revalidate();
+    }//GEN-LAST:event_tKode2MouseClicked
+
+    private void tUangBayar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tUangBayar2KeyTyped
+        // TODO add your handling code here:
+        char huruf = evt.getKeyChar();
+
+        // Jika yang diketik bukan angka, maka tolak inputannya
+        if (!Character.isDigit(huruf)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_tUangBayar2KeyTyped
+
+    private void hitungKembalian() {
+        try {
+            // Ambil angka murni dari Subtotal
+            String subtotalRaw = tSubTotal2.getText().replaceAll("[^\\d]", "");
+            long subtotal = subtotalRaw.isEmpty() ? 0 : Long.parseLong(subtotalRaw);
+
+            // Ambil angka murni dari Uang Bayar
+            String bayarRaw = tUangBayar2.getText().replaceAll("[^\\d]", "");
+            long bayar = bayarRaw.isEmpty() ? 0 : Long.parseLong(bayarRaw);
+
+            // Hitung selisihnya
+            long kembalian = bayar - subtotal;
+
+            // Jika uangnya kurang, tampilkan Rp 0 atau biarkan kosong
+            if (kembalian < 0) {
+                tKembalian2.setText("Rp 0");
+            } else {
+                // Jika uang pas atau lebih, format menjadi Rupiah
+                String formatKembalian = String.format("%,d", kembalian).replace(',', '.');
+                tKembalian2.setText("Rp " + formatKembalian);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error hitung kembalian: " + e.getMessage());
+        }
+    }
+
+    private void tUangBayar2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tUangBayar2KeyReleased
+        // TODO add your handling code here:
+        String uangRaw = tUangBayar2.getText().replaceAll("[^\\d]", "");
+
+        if (!uangRaw.isEmpty()) {
+            try {
+                long angka = Long.parseLong(uangRaw);
+                String formatTitik = String.format("%,d", angka).replace(',', '.');
+                tUangBayar2.setText("Rp " + formatTitik);
+
+                // PANGGIL METHOD KEMBALIAN DI SINI!
+                hitungKembalian();
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error format uang: " + e.getMessage());
+            }
+        } else {
+            tUangBayar2.setText("");
+            tKembalian2.setText("");
+        }
+    }//GEN-LAST:event_tUangBayar2KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -508,7 +893,7 @@ public class Kasirtransaksi extends javax.swing.JPanel {
     private javax.swing.JButton btnHapus2;
     private javax.swing.JButton btnQris2;
     private javax.swing.JButton btnReset2;
-    private javax.swing.JButton btnStruk2;
+    public static javax.swing.JButton btnStruk2;
     private javax.swing.JButton btnTambah2;
     private javax.swing.JPanel input;
     private javax.swing.JPanel inputTransaksi2;
@@ -533,14 +918,14 @@ public class Kasirtransaksi extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel kasir;
-    private javax.swing.JPanel menuKasir;
-    private javax.swing.JTextField tHarga2;
-    private javax.swing.JTextField tJumlah2;
-    private javax.swing.JTextField tKembalian2;
-    private javax.swing.JTextField tKode2;
-    private javax.swing.JTextField tNamaMenu2;
-    private javax.swing.JTextField tSubTotal2;
-    private javax.swing.JTextField tUangBayar2;
-    private javax.swing.JTable tblPesanan2;
+    public static javax.swing.JPanel menuKasir;
+    public static javax.swing.JTextField tHarga2;
+    public static javax.swing.JTextField tJumlah2;
+    public static javax.swing.JTextField tKembalian2;
+    public static javax.swing.JTextField tKode2;
+    public static javax.swing.JTextField tNamaMenu2;
+    public static javax.swing.JTextField tSubTotal2;
+    public static javax.swing.JTextField tUangBayar2;
+    public static javax.swing.JTable tblPesanan2;
     // End of variables declaration//GEN-END:variables
 }

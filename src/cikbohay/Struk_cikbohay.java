@@ -16,6 +16,66 @@ public class Struk_cikbohay extends javax.swing.JPanel {
     public Struk_cikbohay() {
         initComponents();
     }
+    
+    public void muatDataStruk(String idNota) {
+        // 1. Set Nomor Nota di layar
+        tNomorNota.setText(idNota);
+
+        try {
+            java.sql.Connection conn = cikbohay.koneksi.konek(); // Sesuaikan pemanggilan koneksi-mu
+
+            // ====================================================
+            // A. AMBIL DATA TANGGAL DAN TOTAL DARI TABEL NOTA
+            // ====================================================
+            String sqlNota = "SELECT waktu_transaksi, total_pesanan FROM nota WHERE id_nota = ?";
+            java.sql.PreparedStatement psNota = conn.prepareStatement(sqlNota);
+            psNota.setString(1, idNota);
+            java.sql.ResultSet rsNota = psNota.executeQuery();
+
+            if (rsNota.next()) {
+                // Ubah format waktu dari database MySQL menjadi format tanggal Indonesia yang rapi
+                java.sql.Timestamp waktu = rsNota.getTimestamp("waktu_transaksi");
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                jLabel11.setText(sdf.format(waktu)); // jLabel11 adalah label Tanggal milikmu
+
+                // Format angka total menjadi ribuan
+                long total = rsNota.getLong("total_pesanan");
+                tTotalNota.setText(String.format("%,d", total).replace(',', '.'));
+            }
+
+            // ====================================================
+            // B. AMBIL DAFTAR BELANJA DARI TABEL PESANAN & MENU
+            // ====================================================
+            javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel();
+            model.addColumn("Item");
+            model.addColumn("Jumlah");
+            model.addColumn("Harga");
+            tblNota.setModel(model);
+
+            // Pakai fungsi JOIN agar kita bisa dapat 'nama_menu' dari tabel menu
+            String sqlPesanan = "SELECT m.nama_menu, p.jumlah, p.total "
+                    + "FROM pesanan p JOIN menu m ON p.id_menu = m.id_menu "
+                    + "WHERE p.id_nota = ?";
+            java.sql.PreparedStatement psPesanan = conn.prepareStatement(sqlPesanan);
+            psPesanan.setString(1, idNota);
+            java.sql.ResultSet rsPesanan = psPesanan.executeQuery();
+
+            while (rsPesanan.next()) {
+                String nama = rsPesanan.getString("nama_menu");
+                int qty = rsPesanan.getInt("jumlah");
+                long subtotal = rsPesanan.getLong("total");
+
+                // Format nominal harga agar rapi
+                String subtotalFormat = String.format("%,d", subtotal).replace(',', '.');
+
+                // Tambahkan baris ke dalam tabel struk
+                model.addRow(new Object[]{nama, qty, subtotalFormat});
+            }
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal memuat detail struk: " + e.getMessage());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,19 +89,18 @@ public class Struk_cikbohay extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblNota = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         btnPrint = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        tTotalNota = new javax.swing.JLabel();
+        tNomorNota = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        btnTutupNota = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -55,10 +114,6 @@ public class Struk_cikbohay extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Cik Bohay");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nama Pelangan       :");
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Tanggal                    :");
@@ -67,7 +122,7 @@ public class Struk_cikbohay extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("No. Nota                  :");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblNota.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -78,7 +133,7 @@ public class Struk_cikbohay extends javax.swing.JPanel {
                 "Item", "Jumlah", "Harga"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblNota);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,31 +144,31 @@ public class Struk_cikbohay extends javax.swing.JPanel {
         btnPrint.setForeground(new java.awt.Color(255, 255, 255));
         btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-print-20.png"))); // NOI18N
         btnPrint.setText("PRINT");
+        btnPrint.addActionListener(this::btnPrintActionPerformed);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Rp.");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("-");
+        tTotalNota.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tTotalNota.setForeground(new java.awt.Color(255, 255, 255));
+        tTotalNota.setText("-");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("-");
+        tNomorNota.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tNomorNota.setForeground(new java.awt.Color(255, 255, 255));
+        tNomorNota.setText("-");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("-");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("-");
-
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Management System");
+
+        btnTutupNota.setText("Tutup");
+        btnTutupNota.addActionListener(this::btnTutupNotaActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -133,7 +188,7 @@ public class Struk_cikbohay extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tTotalNota, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)))
                 .addGap(23, 23, 23))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -141,47 +196,44 @@ public class Struk_cikbohay extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tNomorNota, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 33, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(39, Short.MAX_VALUE))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTutupNota)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
+                        .addComponent(btnTutupNota)
+                        .addGap(53, 53, 53)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel9))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                            .addComponent(tNomorNota))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel11))
@@ -189,7 +241,7 @@ public class Struk_cikbohay extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
+                    .addComponent(tTotalNota)
                     .addComponent(jLabel7)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
@@ -200,23 +252,80 @@ public class Struk_cikbohay extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.LINE_START);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTutupNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTutupNotaActionPerformed
+        // TODO add your handling code here:
+        // Mengambil "Jendela Induk" (JDialog) yang membungkus panel struk ini
+        java.awt.Window jendela = javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        // Jika jendelanya terdeteksi, maka tutup (dispose)
+        if (jendela != null) {
+            jendela.dispose();
+        }
+    }//GEN-LAST:event_btnTutupNotaActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        // TODO add your handling code here:
+        // 1. Memanggil sistem Printer bawaan mesin Java (OS)
+        java.awt.print.PrinterJob job = java.awt.print.PrinterJob.getPrinterJob();
+        job.setJobName("Print Struk Cik Bohay - " + tNomorNota.getText());
+
+        // 2. Mengatur apa yang mau diprint (Dalam hal ini: jPanel1)
+        job.setPrintable(new java.awt.print.Printable() {
+            public int print(java.awt.Graphics pg, java.awt.print.PageFormat pf, int pageNum) {
+                // Karena struk biasanya 1 halaman, kita batasi pagenya
+                if (pageNum > 0) {
+                    return java.awt.print.Printable.NO_SUCH_PAGE;
+                }
+
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) pg;
+                g2.translate(pf.getImageableX(), pf.getImageableY());
+
+                // Mengecilkan sedikit ukurannya agar pas di kertas (Opsional, 0.8 = 80%)
+                // g2.scale(0.8, 0.8); 
+                // PERINTAH INTI: Melukis/menggambar ulang isi jPanel1 ke alat print
+                jPanel1.paint(g2);
+
+                return java.awt.print.Printable.PAGE_EXISTS;
+            }
+        });
+
+        // 3. Menampilkan jendela Pop-up Print bawaan Windows/Mac
+        boolean ok = job.printDialog();
+
+        // 4. Jika kasir menekan tombol "Print" atau "OK" di pop-up tersebut
+        if (ok) {
+            try {
+                job.print(); // Mulai mencetak ke hardware
+                javax.swing.JOptionPane.showMessageDialog(this, "Struk berhasil dikirim ke antrean printer!", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                // Opsional: Langsung tutup panel struk setelah diprint
+                java.awt.Window jendela = javax.swing.SwingUtilities.getWindowAncestor(this);
+                if (jendela != null) {
+                    jendela.dispose();
+                }
+
+            } catch (java.awt.print.PrinterException ex) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Gagal mencetak struk: " + ex.getMessage(), "Error Printer", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnPrintActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnTutupNota;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    public javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public javax.swing.JLabel tNomorNota;
+    public javax.swing.JLabel tTotalNota;
+    public javax.swing.JTable tblNota;
     // End of variables declaration//GEN-END:variables
 }

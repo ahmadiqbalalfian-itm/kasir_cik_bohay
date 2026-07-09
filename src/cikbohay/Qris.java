@@ -28,24 +28,17 @@ public class Qris extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        btnSelesaiQr = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(181, 72, 72));
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("SELAMAT   MENIKMATI");
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cikbohay/icons8-close-20.png"))); // NOI18N
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -63,49 +56,48 @@ public class Qris extends javax.swing.JPanel {
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Management System");
 
+        btnSelesaiQr.setText("Selesai");
+        btnSelesaiQr.addActionListener(this::btnSelesaiQrActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(98, 98, 98))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(76, 76, 76)
+                    .addComponent(jLabel1)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSelesaiQr)
+                    .addComponent(jLabel4))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSelesaiQr)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(19, 19, 19))
         );
@@ -122,18 +114,111 @@ public class Qris extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void btnSelesaiQrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelesaiQrActionPerformed
         // TODO add your handling code here:
-        new Qris().setVisible(false);
-        new Kasirtransaksi().setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
+        // Taruh ini di event ActionPerformed tombol "Selesai/Konfirmasi" pada panel Qris.java
+        try {
+            // 1. Panggil koneksi database
+            java.sql.Connection conn = cikbohay.koneksi.konek(); // Sesuaikan dengan path koneksi-mu
+            java.sql.Statement st = conn.createStatement();
+
+            // Ambil tabel pesanan dari panel Kasirtransaksi yang sedang aktif
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) cikbohay.Kasirtransaksi.tblPesanan2.getModel();
+
+            // Ambil subtotal (Karena QRIS, uang bayar otomatis sama dengan subtotal)
+            String subtotalRaw = cikbohay.Kasirtransaksi.tSubTotal2.getText().replaceAll("[^\\d]", "");
+            long subtotal = Long.parseLong(subtotalRaw);
+
+            // 2. GENERATE ID NOTA
+            String idNota = "NTA000001";
+            java.sql.ResultSet rsNota = st.executeQuery("SELECT MAX(id_nota) FROM nota");
+            if (rsNota.next() && rsNota.getString(1) != null) {
+                long urut = Long.parseLong(rsNota.getString(1).substring(3)) + 1;
+                idNota = "NTA" + String.format("%06d", urut);
+            }
+
+            // 3. INSERT KE TABEL NOTA (DENGAN ENUM 'QRIS')
+            String sqlNota = "INSERT INTO nota (id_nota, waktu_transaksi, total_pesanan, metode_pembayaran) VALUES (?, ?, ?, ?)";
+            java.sql.PreparedStatement psNota = conn.prepareStatement(sqlNota);
+            psNota.setString(1, idNota);
+            psNota.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
+            psNota.setBigDecimal(3, new java.math.BigDecimal(subtotal));
+            psNota.setString(4, "QRIS"); // <-- INI BEDANYA
+            psNota.executeUpdate();
+
+            // 4. PREPARE ID PESANAN 
+            long urutPesanan = 1;
+            java.sql.ResultSet rsPesanan = st.executeQuery("SELECT MAX(id_pesanan) FROM pesanan");
+            if (rsPesanan.next() && rsPesanan.getString(1) != null) {
+                urutPesanan = Long.parseLong(rsPesanan.getString(1).substring(3)) + 1;
+            }
+
+            // 5. INSERT KE TABEL PESANAN (LOOPING)
+            String sqlPesanan = "INSERT INTO pesanan (id_pesanan, jumlah, total, id_menu, id_kasir, id_nota) VALUES (?, ?, ?, ?, ?, ?)";
+            java.sql.PreparedStatement psPesanan = conn.prepareStatement(sqlPesanan);
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String idPesanan = "PSN" + String.format("%07d", urutPesanan++);
+                String menuTampil = model.getValueAt(i, 0).toString();
+                String idMenu = menuTampil.split(" - ")[0];
+
+                int jumlah = Integer.parseInt(model.getValueAt(i, 2).toString());
+                String totalBarisRaw = model.getValueAt(i, 3).toString().replaceAll("[^\\d]", "");
+                java.math.BigDecimal totalBaris = new java.math.BigDecimal(totalBarisRaw);
+
+                psPesanan.setString(1, idPesanan);
+                psPesanan.setInt(2, jumlah);
+                psPesanan.setBigDecimal(3, totalBaris);
+                psPesanan.setString(4, idMenu);
+                psPesanan.setString(5, "ksr01");
+                psPesanan.setString(6, idNota);
+                psPesanan.executeUpdate();
+            }
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Pembayaran QRIS Berhasil Disimpan!", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // ========================================================
+            // LANGKAH 4: NYALAKAN TOMBOL STRUK UNTUK QRIS
+            // ========================================================
+            // Pastikan di Kasirtransaksi.java tombol btnStruk2 di-set PUBLIC STATIC
+            cikbohay.Kasirtransaksi.idNotaTerakhir = idNota;
+            cikbohay.Kasirtransaksi.btnStruk2.setBackground(new java.awt.Color(255, 204, 0));
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Pembayaran QRIS Berhasil Disimpan!\nSilakan cetak struk.", "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // 6. BERSIHKAN KERANJANG DI KASIR
+            model.setRowCount(0);
+            cikbohay.Kasirtransaksi.tSubTotal2.setText("");
+            cikbohay.Kasirtransaksi.tUangBayar2.setText("");
+            cikbohay.Kasirtransaksi.tKembalian2.setText("");
+
+            // 7. TUTUP PANEL QRIS (Kembalikan ke panel daftar menu)
+            // Silakan tambahkan logika untuk me-remove panel ini dari menuKasir dan memanggil ulang panel menu biasa
+            // ========================================================
+// 7. TUTUP PANEL QRIS DAN KEMBALIKAN KE DAFTAR MENU
+// ========================================================
+            // Bersihkan keranjang kasir
+            model.setRowCount(0);
+            cikbohay.Kasirtransaksi.tUangBayar2.setText("");
+            cikbohay.Kasirtransaksi.tKembalian2.setText("");
+            cikbohay.Kasirtransaksi.tSubTotal2.setText("");
+
+            // TUTUP POP-UP QRIS INI SETELAH SUKSES
+            java.awt.Window jendela = javax.swing.SwingUtilities.getWindowAncestor(this);
+            if (jendela != null) {
+                jendela.dispose();
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal menyimpan transaksi QRIS: " + e.getMessage(), "Error Database", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSelesaiQrActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSelesaiQr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;

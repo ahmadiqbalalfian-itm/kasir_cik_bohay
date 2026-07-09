@@ -26,6 +26,9 @@ public class dashboardAdmin extends javax.swing.JFrame {
      * Creates new form cikbohayy
      */
     public boolean modeEdit = false;
+        
+    // Ini saklar untuk ngecek apakah panel dibuka dari Kasir atau Admin
+    public static boolean isKasirMode = false;
 
     public dashboardAdmin() {
         initComponents();
@@ -42,60 +45,51 @@ public class dashboardAdmin extends javax.swing.JFrame {
         comboKategori();
     }
 
-    private void editTabelMenu() {
-        modeEdit = true;
-        if (modeEdit==true){
-            javax.swing.JTable tabelAktif = null;
+private void editTabelMenu() {
+    javax.swing.JTable tabelAktif = null;
 
-            // 1. Cek tabel mana yang aktif
-            if (tblMenuSemua.getSelectedRow() != -1) {
-                tabelAktif = tblMenuSemua;
-            } else if (tblMenuSeblak.getSelectedRow() != -1) {
-                tabelAktif = tblMenuSeblak;
-            } else if (tblMenuGeprek.getSelectedRow() != -1) {
-                tabelAktif = tblMenuGeprek;
-            } else if (tblMenuMinuman.getSelectedRow() != -1) {
-                tabelAktif = tblMenuMinuman;
-            } else if (tblMenuSnack.getSelectedRow() != -1) {
-                tabelAktif = tblMenuSnack;
-            } else if (tblMenuMie.getSelectedRow() != -1) {
-                tabelAktif = tblMenuMie;
-            }
+    if (tblMenuSemua.getSelectedRow() != -1) tabelAktif = tblMenuSemua;
+    else if (tblMenuSeblak.getSelectedRow() != -1) tabelAktif = tblMenuSeblak;
+    else if (tblMenuGeprek.getSelectedRow() != -1) tabelAktif = tblMenuGeprek;
+    else if (tblMenuMinuman.getSelectedRow() != -1) tabelAktif = tblMenuMinuman;
+    else if (tblMenuSnack.getSelectedRow() != -1) tabelAktif = tblMenuSnack;
+    else if (tblMenuMie.getSelectedRow() != -1) tabelAktif = tblMenuMie;
 
-            // 2. Peringatan kalau belum pilih baris
-            if (tabelAktif == null) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Silahkan pilih menu yang akan diedit terlebih dahulu");
-                return;
-            }
-
-            // 3. Sedot datanya dari baris yang diklik
-            int barisTerpilih = tabelAktif.getSelectedRow();
-            String idMenu = tabelAktif.getValueAt(barisTerpilih, 0).toString();
-            String namaMenu = tabelAktif.getValueAt(barisTerpilih, 1).toString();
-            String hargaMenu = tabelAktif.getValueAt(barisTerpilih, 2).toString();
-            String idKategori = tabelAktif.getValueAt(barisTerpilih, 3).toString();
-
-            // 4. TEMBAKKAN DATA LANGSUNG KE TEXT FIELD (Nggak perlu pakai embel-embel panelEdit lagi)
-            tIdMenu.setText(idMenu);
-            tIdMenu.setEditable(false);
-            tNamaMenu.setText(namaMenu);
-            tHarga.setText(hargaMenu);
-            cKategori.setSelectedItem(idKategori);
-
-            // Cocokkan ID Kategori kembali menjadi Teks untuk Combo Box
-            if (idKategori.equals("k001")) {
-                cKategori.setSelectedItem("Seblak");
-            } else if (idKategori.equals("k002")) {
-                cKategori.setSelectedItem("Geprek");
-            } else if (idKategori.equals("k003")) {
-                cKategori.setSelectedItem("Minuman");
-            } else if (idKategori.equals("k004")) {
-                cKategori.setSelectedItem("Snack");
-            } else if (idKategori.equals("k005")) {
-                cKategori.setSelectedItem("Mie LVL");
-            }
-        }
+    if (tabelAktif == null) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Silahkan pilih menu terlebih dahulu");
+        return;
     }
+
+    int barisTerpilih = tabelAktif.getSelectedRow();
+    String idMenu = tabelAktif.getValueAt(barisTerpilih, 0).toString();
+    String namaMenu = tabelAktif.getValueAt(barisTerpilih, 1).toString();
+    String hargaMenu = tabelAktif.getValueAt(barisTerpilih, 2).toString();
+    String idKategori = tabelAktif.getValueAt(barisTerpilih, 3).toString();
+
+    // INI LOGIKA IF-ELSE NYA
+    if (isKasirMode == true) {
+        // ---- MELEMPAR DATA KE FILE KASIR ----
+        Kasirtransaksi.tKode2.setText(idMenu);
+        Kasirtransaksi.tNamaMenu2.setText(namaMenu);
+        Kasirtransaksi.tHarga2.setText(hargaMenu);
+        Kasirtransaksi.tJumlah2.requestFocus(); 
+        
+    } else {
+        // ---- MELEMPAR DATA KE TEXTFIELD ADMIN ----
+        modeEdit = true;
+        tIdMenu.setText(idMenu);
+        tIdMenu.setEditable(false);
+        tNamaMenu.setText(namaMenu);
+        tHarga.setText(hargaMenu);
+        cKategori.setSelectedItem(idKategori);
+
+        if (idKategori.equals("k001")) cKategori.setSelectedItem("Seblak");
+        else if (idKategori.equals("k002")) cKategori.setSelectedItem("Geprek");
+        else if (idKategori.equals("k003")) cKategori.setSelectedItem("Minuman");
+        else if (idKategori.equals("k004")) cKategori.setSelectedItem("Snack");
+        else if (idKategori.equals("k005")) cKategori.setSelectedItem("Mie LVL");
+    }
+}
 
     void comboKategori() {
         try {
@@ -1614,7 +1608,7 @@ public class dashboardAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JPanel panelContent;
+    public static javax.swing.JPanel panelContent;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JPanel panelSideBar;
     private javax.swing.JLabel tExit;
@@ -1626,7 +1620,7 @@ public class dashboardAdmin extends javax.swing.JFrame {
     public javax.swing.JLabel tPesanMenu;
     private javax.swing.JLabel tStokAdmin;
     private javax.swing.JPanel tampilan;
-    private javax.swing.JPanel tampilanMenu;
+    public javax.swing.JPanel tampilanMenu;
     private javax.swing.JTable tblMenuGeprek;
     private javax.swing.JTable tblMenuMie;
     private javax.swing.JTable tblMenuMinuman;
