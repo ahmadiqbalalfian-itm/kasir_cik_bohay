@@ -67,13 +67,12 @@ private void editTabelMenu() {
     String idKategori = tabelAktif.getValueAt(barisTerpilih, 3).toString();
 
     // INI LOGIKA IF-ELSE NYA
-    if (isKasirMode == true) {
-        // ---- MELEMPAR DATA KE FILE KASIR ----
-        Kasirtransaksi.tKode2.setText(idMenu);
-        Kasirtransaksi.tNamaMenu2.setText(namaMenu);
-        Kasirtransaksi.tHarga2.setText(hargaMenu);
-        Kasirtransaksi.tJumlah2.requestFocus(); 
-        
+    if (isKasirMode) {
+        // Tembak langsung ke kelas Kasirtransaksi
+        cikbohay.Kasirtransaksi.tKode2.setText(idMenu);
+        cikbohay.Kasirtransaksi.tNamaMenu2.setText(namaMenu);
+        cikbohay.Kasirtransaksi.tHarga2.setText(hargaMenu);
+        cikbohay.Kasirtransaksi.tJumlah2.requestFocus();
     } else {
         // ---- MELEMPAR DATA KE TEXTFIELD ADMIN ----
         modeEdit = true;
@@ -1333,7 +1332,15 @@ private void editTabelMenu() {
 
     private void tblMenuSemuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuSemuaMouseClicked
         // TODO add your handling code here:
-        editTabelMenu();
+        int baris = tblMenuSemua.getSelectedRow();
+        if (baris != -1) {
+            String id = tblMenuSemua.getValueAt(baris, 0).toString();
+            String nama = tblMenuSemua.getValueAt(baris, 1).toString();
+            String harga = tblMenuSemua.getValueAt(baris, 2).toString();
+
+            // Panggil fungsi kirim
+            kirimKeKasir(id, nama, harga);
+        }
     }//GEN-LAST:event_tblMenuSemuaMouseClicked
 
     private void btnMenuMieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuMieActionPerformed
@@ -1536,6 +1543,14 @@ private void editTabelMenu() {
         editTabelMenu();
     }//GEN-LAST:event_btnMenuSeblakMouseClicked
 
+    // Taruh ini di dashboardAdmin.java
+    public void kirimKeKasir(String id, String nama, String harga) {
+        cikbohay.Kasirtransaksi.tKode2.setText(id);
+        cikbohay.Kasirtransaksi.tNamaMenu2.setText(nama);
+        cikbohay.Kasirtransaksi.tHarga2.setText(harga);
+        cikbohay.Kasirtransaksi.tJumlah2.requestFocus();
+    }
+    
     /**
      * @param args the command line arguments
      */

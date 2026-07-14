@@ -887,6 +887,28 @@ public class Kasirtransaksi extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tUangBayar2KeyReleased
 
+    // Taruh method ini di bawah method reset() atau di paling bawah sebelum kurung tutup terakhir
+    public static void tampilkanMenu() {
+        cikbohay.dashboardAdmin adminView = new cikbohay.dashboardAdmin();
+        adminView.isKasirMode = true; // Set mode kasir aktif
+
+        // Sembunyikan tombol admin biar nggak bisa diklik
+        adminView.btnTambahMenu.setVisible(false);
+        adminView.btnEditMenu.setVisible(false);
+        adminView.btnHapusMenu.setVisible(false);
+
+        // Paksa ukuran panel agar tidak 0x0
+        adminView.tampilanMenu.setSize(500, 500);
+
+        // Copot isi panel kanan, lalu pasang menu
+        menuKasir.removeAll();
+        menuKasir.setLayout(new java.awt.BorderLayout());
+        menuKasir.add(adminView.tampilanMenu, java.awt.BorderLayout.CENTER);
+
+        // REFRESH PAKSA (Ini kuncinya biar nggak abu-abu/blank)
+        menuKasir.revalidate();
+        menuKasir.repaint();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCash2;

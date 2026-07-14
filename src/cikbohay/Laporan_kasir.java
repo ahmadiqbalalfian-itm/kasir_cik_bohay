@@ -3,6 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package cikbohay;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -16,6 +21,56 @@ public class Laporan_kasir extends javax.swing.JPanel {
     public Laporan_kasir() {
         initComponents();
     }
+   // public static void main(String[] args) {
+     //   SwingUtilities.invokeLater(() -> new LaporanPenjualan().setVisible(true));
+   // }
+    
+
+public class LaporanPenjualan extends JFrame {
+    
+    public LaporanPenjualan() {
+        setTitle("Laporan Penjualan Admin");
+        setSize(1200, 700);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Panel Kiri (Menu)
+        JPanel panelMenu = new JPanel();
+        panelMenu.setPreferredSize(new Dimension(200, 700));
+        panelMenu.setBackground(new Color(192, 57, 43)); // Warna Merah Marun
+        // Tambahkan tombol-tombol menu di sini
+        
+        // Panel Utama
+        JPanel panelUtama = new JPanel();
+        panelUtama.setBackground(new Color(200, 100, 100)); // Warna Latar Merah Muda/Kusam
+        panelUtama.setLayout(null);
+
+        // Komponen Statistik (JPanels untuk Total Penjualan, dll)
+        // Gunakan setBounds(x, y, width, height) untuk posisi persis
+        
+        // Tabel Menu Terlaris
+        String[] kolomMenu = {"No", "Nama Menu", "Terjual (Porsi)", "Total Pendapatan"};
+        DefaultTableModel modelMenu = new DefaultTableModel(kolomMenu, 0);
+        JTable tableMenu = new JTable(modelMenu);
+        JScrollPane scrollMenu = new JScrollPane(tableMenu);
+        scrollMenu.setBounds(50, 150, 400, 100);
+        
+        // Tabel Transaksi Terakhir
+        String[] kolomTransaksi = {"ID Transaksi", "Waktu", "Total", "Status"};
+        DefaultTableModel modelTransaksi = new DefaultTableModel(kolomTransaksi, 0);
+        JTable tableTransaksi = new JTable(modelTransaksi);
+        JScrollPane scrollTransaksi = new JScrollPane(tableTransaksi);
+        scrollTransaksi.setBounds(50, 300, 400, 300);
+
+        panelUtama.add(scrollMenu);
+        panelUtama.add(scrollTransaksi);
+        
+        add(panelMenu, BorderLayout.WEST);
+        add(panelUtama, BorderLayout.CENTER);
+    }
+
+ 
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
